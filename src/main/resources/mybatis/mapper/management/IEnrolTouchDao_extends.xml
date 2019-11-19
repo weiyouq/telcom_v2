@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xs.sh.telcom.dao.management.IEnrolTouchDao">
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.xs.sh.telcom.bean.EnrolTouch">
+    SELECT a.id, a.audio_path, a.create_date, a.download_status, a.download_date, a.download_error, a.enrol_status,
+    a.enrol_date, a.enrol_error, a.enrol_record, b.user_id userNo, b.bu_no buNo
+    FROM
+    t_enrol_touch a
+    LEFT JOIN
+    (
+    SELECT m.id, m.enrol_touch_id, n.user_id, k.bu_no
+    FROM
+    t_user_business m
+    LEFT JOIN
+    t_enrols n
+    ON
+    m.user_id = n.id
+    LEFT JOIN
+    t_business k
+    ON
+    m.bu_id = k.id
+    ) b
+    ON
+    a.id =b.enrol_touch_id
+    where 1=1
+    <if test="beginTime != null and beginTime != ''">
+      AND a.create_date &gt;= #{beginTime}
+    </if>
+    <if test="endTime != null and endTime != ''">
+      AND a.create_date &lt; #{endTime}
+    </if>
+    <if test="userNo != null and userNo != ''">
+      AND b.user_id = #{userNo}
+    </if>
+    <if test="buNo != null and buNo != ''">
+      AND b.bu_no = #{buNo}
+    </if>
+    <if test="enrolRecord != null and enrolRecord != ''">
+      AND a.enrol_record = #{enrolRecord}
+    </if>
+
+  </select>
+</mapper>

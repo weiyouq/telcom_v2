@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xs.sh.telcom.dao.management.IIdentifyUserDao">
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.xs.sh.telcom.bean.IdentifyUser">
+    SELECT id,userNo,roll_flag,buNo,enrol_time,create_by,update_by,update_time
+    FROM
+    (
+      SELECT
+        a.id, b.user_id userNo, a.roll_flag, c.bu_no buNo, a.enrol_time, a.create_by, a.update_by, a.update_time
+      FROM
+        t_identify_user a
+      LEFT JOIN
+        t_enrols b
+      ON
+        a.user_id = b.id
+      LEFT JOIN
+        t_business c
+      ON
+        a.bu_id = c.id
+    ) m
+    where 1=1
+    <if test="id != null">
+      AND id = #{id}
+    </if>
+    <if test="userNo != null and userNo != ''">
+      AND userNo = #{userNo}
+    </if>
+    <if test="rollFlag != null">
+      AND roll_flag =#{rollFlag}
+    </if>
+    <if test="buNo != null and buNo != ''">
+      AND buNo =#{buNo}
+    </if>
+    order by field(roll_flag, 0)
+  </select>
+
+  <update id="deleteByIds" parameterType="java.util.List">
+    UPDATE t_identify_user SET roll_flag=0 WHERE id IN
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </update>
+
+  <select id="selectByUserNoAndBuNo" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+      a.id, b.user_id userNo, a.roll_flag, a.bu_id, a.enrol_time, a.create_by, a.update_by, a.update_time
+    FROM
+      t_identify_user a
+    LEFT JOIN
+      t_enrols b
+    ON
+      a.user_id = b.id
+    LEFT JOIN
+      t_business c
+    ON
+      a.bu_id = c.id
+    WHERE b.user_id =#{userNo}
+    <if test="buNo != null  and buNo != ''">
+      AND c.bu_no = #{buNo}
+    </if>
+  </select>
+</mapper>

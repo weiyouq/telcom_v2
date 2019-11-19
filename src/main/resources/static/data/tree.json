@@ -1,0 +1,39 @@
+[
+  {
+    "text" : "红黑用户管理",
+    "children":
+    [{
+      "url": "rollUser",
+      "text":"红黑名单用户"
+    },{
+      "url": "roll",
+      "text": "红黑名单管理"
+    }]
+  },
+  {
+    "text" : "核声用户管理",
+    "children":
+    [{
+      "url":"uaUser",
+      "text":"核声用户"
+    },{
+      "url":"uaUserCount",
+      "text":"用户统计"
+    }]
+  },
+  {
+    "text" : "一比一日志",
+    "children":
+    [{
+      "url":"uaenrollog",
+      "text":"一比一注册记录"
+    },{
+      "url": "ualog",
+      "text": "其他"
+    }]
+  },
+  {
+    "url": "identifylog",
+    "text" : "一对多日志"
+  }
+]

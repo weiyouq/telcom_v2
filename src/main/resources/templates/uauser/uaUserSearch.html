@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="X-UA-Compatible" content="edge" />
+    <title>声纹库（1:1）查询</title>
+    <link rel="shortcut icon" type="image/png" th:href="@{/img/favicon.ico}" />
+    <!-- Vendor styles -->
+    <link rel="stylesheet" data-th-href="@{css/material-design-iconic-font/css/material-design-iconic-font.min.css}">
+    <link rel="stylesheet" data-th-href="@{css/jquery.scrollbar/jquery.scrollbar.css}">
+    <!-- App styles -->
+    <link rel="stylesheet" data-th-href="@{css/app.css}">
+    <!-- Bootstrap Table -->
+    <link rel="stylesheet" data-th-href="@{css/bootstrap-table/bootstrap-table.css}">
+    <!-- animate -->
+    <link rel="stylesheet" data-th-href="@{css/animate/animate.min.css}">
+    <!-- multiple-select -->
+    <link rel="stylesheet" data-th-href="@{css/multiple-select/multiple-select.css}">
+    <!-- jsTree -->
+    <link rel="stylesheet" data-th-href="@{css/jsTree/style.min.css}">
+    <!-- treeTable -->
+    <link rel="stylesheet" data-th-href="@{css/jqTreeGrid/jquery.treegrid.css}">
+    <!-- sweetalert2 -->
+    <link rel="stylesheet" data-th-href="@{css/sweetalert2/sweetalert2.css}">
+    <!-- datarangepicker -->
+    <link rel="stylesheet" data-th-href="@{css/daterangepicker/daterangepicker.css}">
+
+
+    <link rel="stylesheet" data-th-href="@{css/bootstrap/bootstrap-datetimepicker.min.css}">
+    <script src="js/jquery.min.js"></script>
+    <!--<script src="js/jquery.js"></script>-->
+
+
+    <script src="js/tether/tether.min.js"></script>
+    <script src="js/bootstrap/bootstrap.min.js"></script>
+    <script src="js/waves/waves.min.js"></script>
+    <script src="js/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="js/jquery-scrollLock/jquery-scrollLock.min.js"></script>
+    <script src="js/bootstrap-notify/bootstrap-notify.min.js"></script>
+
+    <script src="js/multiple-select/multiple-select.js"></script>
+    <script src="js/dropzone/dropzone.min.js"></script>
+    <script src="js/sweetalert2/sweetalert2.js"></script>
+    <script src="js/jquery-validate/jquery.validate.min.js"></script>
+    <script src="js/jquery-validate/additional-methods.min.js"></script>
+    <script src="js/jquery-validate/messages_zh.min.js"></script>
+
+    <script src="/js/jsTree/jstree.js"></script>
+
+    <script src="js/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="js/bootstrap-table/locale/bootstrap-table-zh-CN.js"></script>
+
+    <script src="js/jqTreeGrid/jquery.treegrid.js"></script>
+    <!-- <script src="js/jqTreeGrid/jquery.treegrid.bootstrap3.js"></script> -->
+    <script src="js/jqTreeGrid/jquery.treegrid.extension.js"></script>
+    <!-- <script src="js/jqTreeGrid/tree.table.js"></script> -->
+
+    <!--<script src="js/highchart/highcharts.js"></script>-->
+    <!--<script src="js/highchart/exporting.js"></script>-->
+    <!--<script src="js/highchart/highcharts-zh_CN.js"></script>-->
+
+    <script src="js/daterangepicker/moment.min.js"></script>
+    <script src="js/daterangepicker/daterangepicker.js"></script>
+
+
+    <script src="js/bootstrap/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/bootstrap/moment-with-locales.js"></script>
+
+
+    <script data-th-src="@{js/common.js}"></script>
+
+    <script data-th-inline="javascript">
+    //获取路径
+    var ctx = [[@{/}]];
+
+</script>
+
+</head>
+<body>
+<div class="card">
+
+    <div class="card-block">
+        <div class="table-responsive">
+            <div id="data-table_wrapper" class="dataTables_wrapper">
+
+                <!-- 按钮 -->
+                <div class="dataTables_buttons hidden-sm-down actions">
+                    <span class="actions__item zmdi zmdi-search" onclick="search()" title="搜索" />
+                </div>
+                <!-- 搜索栏  -->
+                <div id="data-table_filter" class="dataTables_filter">
+                    <form class="user-table-form">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> 用户ID： </span>
+                                    <div class="form-group">
+                                        <input type="text" name="userNo" class="form-control"> <i class="form-group__bar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 中间表单 -->
+                <table id="uaUserSearchTable" data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/app/system/uaUserlist/uaUserSearch.js"></script>
+
+</html>

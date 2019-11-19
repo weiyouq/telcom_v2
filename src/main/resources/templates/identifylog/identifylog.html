@@ -1,0 +1,87 @@
+<div class="card">
+
+    <div class="card-block">
+        <div class="table-responsive">
+            <div id="data-table_wrapper" class="dataTables_wrapper">
+
+                <!-- 按钮 -->
+                <div class="dataTables_buttons hidden-sm-down actions">
+                    <span class="actions__item zmdi zmdi-search" onclick="search()" title="搜索" /> <span class="actions__item zmdi zmdi-refresh-alt" onclick="refresh()" title="刷新" />
+                    <!--<div class="dropdown actions__item">
+                        <i data-toggle="dropdown" class="zmdi zmdi-download"> </i>
+                        <ul class="dropdown-menu dropdown-menu-right">
+                            <a href="javascript:void(0)" class="dropdown-item" data-table-action="excel" onclick="exportUserExcel()">
+							Excel (.xlsx) </a>
+                            <a href="javascript:void(0)" class="dropdown-item" data-table-action="csv" onclick="exportUserCsv()"> CSV
+							(.csv) </a>
+                        </ul>
+                    </div>-->
+                </div>
+
+                <!-- 搜索栏  -->
+                <div id="data-table_filter" class="dataTables_filter">
+                    <form class="user-table-form">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> 开始时间： </span>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker1'>
+                                            <span class="input-group-addon">
+                                                <input type='text' class="form-control" name="beginTime"/>
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> 结束时间： </span>
+                                    <div class="form-group">
+                                        <div class='input-group date' id='datetimepicker2'>
+                                            <span class="input-group-addon">
+                                                <input type='text' class="form-control" name="endTime" />
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-addon"> 记录类别： </span>
+                                    <div class="form-group">
+                                        <select class="form-control" name="category">
+                                            <option value="" selected>所有</option>
+                                            <option value="1001">注册</option>
+                                            <option value="1002">加强</option>
+                                            <option value="1003">验证</option>
+                                            <option value="1004">根据用户前缀验证</option>
+                                            <option value="1005">1对多验证</option>
+                                            <option value="1006">删除账户</option>
+                                            <option value="1007">查询是否存在</option>
+                                            <option value="1007">注册失败</option>
+                                            <option value="1007">加强失败</option>
+                                            <option value="1007">验证失败</option>
+                                            <option value="1007">根据用户前缀验证失败</option>
+                                            <option value="1007">1对多验证失败</option>
+                                            <option value="1007">删除账户失败</option>
+                                            <option value="1007">查询是否存在失败</option>
+                                            <option value="1007">文件下载失败</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- 中间表单 -->
+                <table id="writelistTable" data-mobile-responsive="true" class="mb-bootstrap-table text-nowrap"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<script data-th-src="@{js/app/system/identifylog/identifylog.js}"></script>

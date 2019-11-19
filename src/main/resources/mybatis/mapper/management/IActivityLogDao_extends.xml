@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xs.sh.telcom.dao.management.IActivityLogDao">
+  <select id="selectAll" resultMap="BaseResultMap" parameterType="cn.xs.sh.telcom.bean.ActivityLog">
+    SELECT
+      a.id,b.user_id userNo,c.bu_no buNo,a.voice_location,a.category,a.create_date,a.result
+    FROM
+      t_activity_log  a
+    LEFT JOIN
+    t_enrols b
+    ON
+      a.user_id=b.id
+    LEFT JOIN
+      t_business c
+    ON
+      a.bu_id = c.id
+    where 1=1
+    <choose>
+      <when test="category != null">
+        AND a.category = #{category}
+      </when>
+      <otherwise>
+        AND a.category &lt; 200
+      </otherwise>
+    </choose>
+    <if test="beginTime != null and beginTime != ''">
+      AND a.create_date &gt;= #{beginTime}
+    </if>
+    <if test="endTime != null and endTime != ''">
+      AND a.create_date &lt; #{endTime}
+    </if>
+    <if test="userNo != null and userNo != ''">
+      AND b.user_id = #{userNo}
+    </if>
+    <if test="buNo != null and buNo != ''">
+      AND c.bu_no= #{buNo}
+    </if>
+  </select>
+  <select id="selectAllIdentifylog" resultMap="BaseResultMap" parameterType="cn.xs.sh.telcom.bean.ActivityLog">
+    SELECT
+    a.id,b.user_id userNo,c.bu_no buNo,voice_location,category,create_date,result
+    FROM
+    t_activity_log  a
+    LEFT JOIN
+    t_enrols b
+    ON
+    a.user_id=b.id
+    LEFT JOIN
+    t_business c
+    ON
+    a.bu_id = c.id
+    where 1=1
+    <choose>
+      <when test="category != null">
+        AND category = #{category}
+      </when>
+      <otherwise>
+        AND category &gt; 100
+      </otherwise>
+    </choose>
+    <if test="beginTime != null and beginTime != ''">
+      AND create_date &gt;= #{beginTime}
+    </if>
+    <if test="endTime != null and endTime != ''">
+      AND create_date &lt; #{endTime}
+    </if>
+    <if test="userNo != null and userNo != ''">
+      AND b.user_id &lt; #{userNo}
+    </if>
+    <if test="buNo != null and buNo != ''">
+      AND c.bu_no &lt; #{buNo}
+    </if>
+  </select>
+</mapper>

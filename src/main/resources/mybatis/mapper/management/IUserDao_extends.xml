@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.xs.sh.telcom.dao.management.IUserDao">
+  <select id="selectByUserNo" resultMap="BaseResultMap">
+    select id, user_id, enrol_type, used_user_id, user_state
+    from t_enrols
+    where
+    user_id =#{userId} and enrol_type = 1
+  </select>
+
+  <select id="selectAllIdentifyUser" resultMap="BaseResultMap"  parameterType="cn.xs.sh.telcom.bean.User">
+    SELECT a.id, a.user_id, a.enrol_type, a.used_user_id, a.user_state, c.bu_no buNo
+    FROM
+    t_enrols a
+    LEFT JOIN
+    t_user_business b
+    ON
+    a.id = b.user_id
+    LEFT JOIN
+    t_business c
+    ON
+    b.bu_id = c.id
+    WHERE a.enrol_type =1
+    <if test="userId != null and userId != ''">
+      AND a.user_id = #{userId}
+    </if>
+    <if test="buNo != null and buNo != ''">
+      AND c.bu_no =#{buNo}
+    </if>
+  </select>
+
+  <select id="selectAllUaUser" resultMap="BaseResultMap"  parameterType="cn.xs.sh.telcom.bean.User">
+    SELECT a.id, a.user_id, a.enrol_type, a.used_user_id, a.user_state, b.bu_no buNo
+    FROM
+    t_enrols a
+    LEFT JOIN
+    (
+    SELECT m.id, m.user_id,m.bu_id,n.bu_no
+    FROM
+    (SELECT MIN(id) id,user_id,bu_id FROM t_user_business GROUP BY user_id, bu_id) m
+    LEFT JOIN
+    t_business n
+    ON
+    m.bu_id = n.id
+    )b
+    ON
+    a.id = b.user_id
+    WHERE a.enrol_type = 0
+    <if test="userId != null and userId != ''">
+      AND a.user_id = #{userId}
+    </if>
+    <if test="userState != null and userState != ''">
+      AND a.user_state =#{userState}
+    </if>
+  </select>
+
+  <select id="selectAllUaUserCount" resultMap="BaseResultMap">
+    SELECT activityCount,onePreMod,twoPreMod,verifyNotice,deleteCount
+    from
+    (select count(id) activityCount from t_enrols where user_state=0) a,
+    (SELECT COUNT(id) onePreMod FROM t_enrols WHERE user_state=1) b,
+    (SELECT COUNT(id) twoPreMod FROM t_enrols WHERE user_state=2) c,
+    (SELECT COUNT(id) verifyNotice FROM t_enrols WHERE user_state=3) d,
+    (select count(id) deleteCount from t_enrol_touch where enrol_record =4) e
+  </select>
+  <select id="selectUaUserCountByDate" resultMap="BaseResultMap">
+    SELECT activityCount,onePreMod,twoPreMod,verifyNotice,deleteCount
+    FROM
+    (SELECT COUNT(id) activityCount FROM t_enrol_touch WHERE create_date = #{date} AND enrol_record =0) a,
+    (SELECT COUNT(id) onePreMod FROM t_enrol_touch WHERE create_date = #{date} AND enrol_record =1) b,
+    (SELECT COUNT(id) twoPreMod FROM t_enrol_touch WHERE create_date = #{date} AND enrol_record =2) c,
+    (SELECT COUNT(id) verifyNotice FROM t_enrol_touch WHERE create_date = #{date} AND enrol_record =3) d,
+    (SELECT COUNT(id) deleteCount FROM t_enrol_touch WHERE create_date = #{date} AND enrol_record =4) e
+  </select>
+
+  <select id="selectUserEnrolInfo" resultMap="BaseResultMap">
+    SELECT user_id, MAX(activity_enrol_date) activityEnrolDate, MAX(pre1_enrol_date) pre1EnrolDate,MAX(pre2_enrol_date) pre2EnrolDate,
+    MAX(notice_enrol_date) noticeEnrolDate, MAX(delete_enrol_date) deleteEnrolDate
+    FROM(
+
+    SELECT c.user_id, b.enrol_record, b.enrol_date,
+    CASE WHEN b.enrol_record=0 THEN enrol_date END activity_enrol_date, CASE WHEN b.enrol_record=1 THEN enrol_date END pre1_enrol_date,
+    CASE WHEN b.enrol_record=2 THEN enrol_date END pre2_enrol_date, CASE WHEN b.enrol_record=3 THEN enrol_date END notice_enrol_date,
+    CASE WHEN b.enrol_record=4 THEN enrol_date END delete_enrol_date
+    FROM t_user_business  a
+    LEFT JOIN
+    t_enrol_touch b
+    ON
+    a.enrol_touch_id = b.id
+    LEFT JOIN
+    t_enrols c
+    ON
+    a.user_id = c.id
+    WHERE b.enrol_status=2
+    AND c.user_id =#{userId}
+    AND b.enrol_record &lt; 5
+    ORDER BY c.user_id
+    )m
+    GROUP BY m.user_id
+  </select>
+
+  <delete id="deleteByIds" parameterType="java.util.List">
+    delete from t_enrols
+    where id in
+    <foreach collection="list" index="index" item="item" separator="," open="(" close=")">
+      #{item}
+    </foreach>
+
+  </delete>
+</mapper>
